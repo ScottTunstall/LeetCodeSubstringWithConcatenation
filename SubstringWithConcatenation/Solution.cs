@@ -18,9 +18,17 @@ namespace SubstringWithConcatenation
 
             foreach (var perm in perms)
             {
-                var pos = s.IndexOf(perm);
-                if (pos>-1)
+                var startFrom = 0;
+
+                for (;;)
+                {
+                    var pos = s.IndexOf(perm, startFrom);
+                    if (pos == -1)
+                        break;
+
                     positionsFoundAt.Add(pos);
+                    startFrom = pos + 1;
+                }
             }
 
             return positionsFoundAt;
