@@ -13,7 +13,7 @@ namespace SubstringWithConcatenation
             var stringLen = s.Length;
             var foundIndices = new List<int>();
 
-            Dictionary<string, int> usedWords = new();
+            Dictionary<string, short> usedWords = new();
             HashSet<char> firstLetterOfEachWord = new();
 
             foreach (var word in words)
@@ -30,7 +30,7 @@ namespace SubstringWithConcatenation
             }
             
             // Clone dictionary
-            Dictionary<string, int> reloadCache = new(usedWords);
+            Dictionary<string, short> reloadCache = new(usedWords);
 
             var wordLen = words[0].Length;
             var numberOfWords = words.Length;
