@@ -12,19 +12,14 @@ namespace SubstringWithConcatenation
         {
             var foundIndices = new List<int>();
 
-            Dictionary<string, int> _usedWords = new();
-
-            foreach (var word in words)
-            {
-                _usedWords[word] = 0;
-            }
+            Dictionary<string, int> usedWords = new();
 
             var wordLen = words[0].Length;
             var numberOfWords = words.Length;
 
             var left = 0;
 
-            while (left < s.Length)
+            while (left+wordLen <= s.Length)
             {
                 var right = left;
 
@@ -32,15 +27,23 @@ namespace SubstringWithConcatenation
 
                 foreach (var word in words)
                 {
-                    _usedWords[word] += 1;
+                    usedWords[word] = 0;
+                }
+
+                foreach (var word in words)
+                {
+                    usedWords[word] += 1;
                 }
 
                 var readWord = s.Substring(right, wordLen);
-                while (right+wordLen < s.Length && _usedWords.ContainsKey(readWord) && _usedWords[readWord]>0)
+                while (usedWords.ContainsKey(readWord) && usedWords[readWord]>0)
                 {
                     countOfWords++;
-                    _usedWords[readWord]=-1;
+                    usedWords[readWord]-=1;
                     right += wordLen;
+                    if (right+wordLen > s.Length)
+                        break;
+
                     readWord = s.Substring(right, wordLen);
                 }
 
@@ -49,7 +52,7 @@ namespace SubstringWithConcatenation
                     foundIndices.Add(left);
                 }
 
-                left += wordLen;
+                left ++;
             }
 
             return foundIndices;
