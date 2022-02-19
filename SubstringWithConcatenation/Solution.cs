@@ -13,6 +13,22 @@ namespace SubstringWithConcatenation
             var foundIndices = new List<int>();
 
             Dictionary<string, int> usedWords = new();
+            Dictionary<string, int> reloadCache = new();
+
+            foreach (var word in words)
+            {
+                usedWords[word] = 0;
+            }
+
+            foreach (var word in words)
+            {
+                usedWords[word] += 1;
+            }
+
+            foreach (var kvp in usedWords)
+            {
+                reloadCache[kvp.Key] = kvp.Value;
+            }
 
             var wordLen = words[0].Length;
             var numberOfWords = words.Length;
@@ -24,16 +40,6 @@ namespace SubstringWithConcatenation
                 var right = left;
 
                 var countOfWords = 0;
-
-                foreach (var word in words)
-                {
-                    usedWords[word] = 0;
-                }
-
-                foreach (var word in words)
-                {
-                    usedWords[word] += 1;
-                }
 
                 var readWord = s.Substring(right, wordLen);
                 while (usedWords.ContainsKey(readWord) && usedWords[readWord]>0)
@@ -52,7 +58,12 @@ namespace SubstringWithConcatenation
                     foundIndices.Add(left);
                 }
 
-                left ++;
+                foreach (var kvp in reloadCache)
+                {
+                    usedWords[kvp.Key] = kvp.Value;
+                }
+                
+                left++;
             }
 
             return foundIndices;
