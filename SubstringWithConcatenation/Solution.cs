@@ -8,30 +8,51 @@ namespace SubstringWithConcatenation
 {
     public class Solution
     {
-        private UniquePermutationsCalculator _perms = new();
-
         public IList<int> FindSubstring(string s, string[] words)
         {
-            var perms = _perms.GetUniquePermutations(words);
+            var foundIndices = new List<int>();
 
-            var positionsFoundAt = new List<int>();
+            Dictionary<string, int> _usedWords = new();
 
-            foreach (var perm in perms)
+            foreach (var word in words)
             {
-                var startFrom = 0;
-
-                for (;;)
-                {
-                    var pos = s.IndexOf(perm, startFrom);
-                    if (pos == -1)
-                        break;
-
-                    positionsFoundAt.Add(pos);
-                    startFrom = pos + 1;
-                }
+                _usedWords[word] = 0;
             }
 
-            return positionsFoundAt;
+            var wordLen = words[0].Length;
+            var numberOfWords = words.Length;
+
+            var left = 0;
+
+            while (left < s.Length)
+            {
+                var right = left;
+
+                var countOfWords = 0;
+
+                foreach (var word in words)
+                {
+                    _usedWords[word] += 1;
+                }
+
+                var readWord = s.Substring(right, wordLen);
+                while (right+wordLen < s.Length && _usedWords.ContainsKey(readWord) && _usedWords[readWord]>0)
+                {
+                    countOfWords++;
+                    _usedWords[readWord]=-1;
+                    right += wordLen;
+                    readWord = s.Substring(right, wordLen);
+                }
+
+                if (countOfWords == numberOfWords)
+                {
+                    foundIndices.Add(left);
+                }
+
+                left += wordLen;
+            }
+
+            return foundIndices;
         }
     }
 }

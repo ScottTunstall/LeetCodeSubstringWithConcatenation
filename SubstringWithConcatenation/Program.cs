@@ -4,8 +4,8 @@
 using SubstringWithConcatenation;
 
 var x = new Solution();
-//var positions = x.FindSubstring("barfoothefoobarman", new string[] { "foo","bar" });
+var positions = x.FindSubstring("barfoothefoobarman", new string[] { "foo","bar" });
 
-var positions = x.FindSubstring("wordgoodgoodgoodbestword", new string[] { "dhvf", "sind", "ffsl", "yekr", "zwzq", "kpeo", "cila", "tfty", "modg", "ztjg", "ybty", "heqg", "cpwo", "gdcj", "lnle", "sefg", "vimw", "bxcb"});
+//var positions = x.FindSubstring("wordgoodgoodgoodbestword", new string[] {"word", "good", "best", "word"});
 
 Console.WriteLine();
