@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SubstringWithConcatenation
+﻿namespace SubstringWithConcatenation
 {
     public class Solution
     {
@@ -36,12 +30,13 @@ namespace SubstringWithConcatenation
 
             while (left+wordLen <= stringLen)
             {
-                // Do we have any words beginning with this letter?
+                // Count how many words out of the words[] array we've used. 
+                // When countOfWords == numberOfWords, we've got a successful sequence
                 var countOfWords = 0;
 
                 bool countDictMutated = false;
                 var right = left;
-                while(true)
+                do
                 {
                     // Hmm, would computing a hash value rather than using substring speed this up?
                     var readWord = s.Substring(right, wordLen);
@@ -49,6 +44,11 @@ namespace SubstringWithConcatenation
                     {
                         break;
                     }
+
+                    // Decrement number of times we're allowed to use this word again, on this pass
+                    wordToCountMap[readWord] -= 1;
+
+                    countDictMutated = true;
 
                     countOfWords++;
 
@@ -60,12 +60,8 @@ namespace SubstringWithConcatenation
                         break;
                     }
 
-                    wordToCountMap[readWord] -= 1;
-                    countDictMutated = true;
                     right += wordLen;
-                    if (right + wordLen > stringLen)
-                        break;
-                }
+                } while (right + wordLen <= stringLen);
 
                 // Copy reloadCache dictionary to useWords, "reloading" it for re-use
                 if (countDictMutated)
